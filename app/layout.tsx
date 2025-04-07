@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "L OGICA - AI, GenAI, Computer Vision & Deep Learning Blog",
   description: "Exploring the frontiers of artificial intelligence, generative AI, computer vision, and deep learning.",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -26,3 +27,6 @@ export default function RootLayout({
   )
 }
 
+
+
+import './globals.css'
