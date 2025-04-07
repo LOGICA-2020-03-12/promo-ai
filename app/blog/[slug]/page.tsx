@@ -8,7 +8,24 @@ import { useToast } from "@/components/ui/use-toast"
 import { useEffect } from "react"
 
 // This is a static mapping of blog posts for GitHub Pages
-const blogPosts = {
+
+type BlogPost = {
+  title: string
+  date: string
+  author: string
+  category: string
+  readTime: string
+  image: string
+  content: string
+  relatedPosts: {
+    title: string
+    category: string
+    image: string
+    slug: string
+  }[]
+}
+
+const blogPosts: Record<string, BlogPost> = {
   "evolution-of-gans": {
     title: "The Evolution of Generative Adversarial Networks: From GAN to StyleGAN-3",
     date: "May 15, 2023",
