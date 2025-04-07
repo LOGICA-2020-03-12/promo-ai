@@ -188,18 +188,7 @@ export default function ArticlesPage() {
 }
 
 // VideoCard コンポーネント
-type VideoCardProps = {
-  title: string;
-  description: string;
-  category: string;
-  date: string;
-  videoSrc: string;
-  posterSrc: string;
-  isYouTube?: boolean;
-  externalLink?: string;
-}
-
-function VideoCard({ title, description, category, date, videoSrc, posterSrc, isYouTube, externalLink }: VideoCardProps) { title, description, category, date, videoSrc, posterSrc, isYouTube, externalLink }) {
+function VideoCard({ title, description, category, date, videoSrc, posterSrc, isYouTube, externalLink }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
   const [hasError, setHasError] = useState(false)
