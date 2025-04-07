@@ -7,8 +7,9 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Eye, Instagram, Mail, VolumeX, Volume2 } from "lucide-react"
+import { VolumeX, Volume2 } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation, Autoplay, FreeMode, A11y } from "swiper/modules"
@@ -23,6 +24,11 @@ export default function Home() {
   const { toast } = useToast()
   const newsletterRef = useRef<HTMLElement>(null)
   const recentArticlesRef = useRef<HTMLElement>(null)
+
+  // ページがロードされたときに上部にスクロール
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const scrollToNewsletter = () => {
     newsletterRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -55,171 +61,163 @@ export default function Home() {
       setEmail("")
       setIsSubmitting(false)
     }, 1000)
-
-    // For GitHub Pages, you could use a service like Formspree or a Google Form
-    // to collect emails without needing a backend
-    // Example: window.open(`https://formspree.io/f/yourformid?email=${encodeURIComponent(email)}`, '_blank')
   }
 
   return (
     <div className="min-h-screen bg-[#f0f4f8] text-[#1a202c]">
-      <header className="container mx-auto py-6">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tighter text-teal">
-            PROMO AI
-          </Link>
-          <nav className="hidden md:flex items-center space-x-6 text-sm">
-            <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-              Home
+      {/* ヘッダーを固定位置に配置し、白地の帯として表示 */}
+      <header className="fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
+        <div className="container mx-auto py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="text-2xl font-bold tracking-tighter text-teal">
+              PROMO AI
             </Link>
-            <Link href="/service/" className="text-gray-400 hover:text-white transition-colors">
-              Service
-            </Link>
-            <Link href="/articles/" className="text-gray-400 hover:text-white transition-colors">
-              Articles
-            </Link>
-            <Link href="/about/" className="text-gray-400 hover:text-white transition-colors">
-              About
-            </Link>
-          </nav>
-          <Button
-            variant="outline"
-            className="border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900 font-medium text-base rounded-md px-6"
-            onClick={scrollToNewsletter}
-          >
-            お問い合わせ
-          </Button>
+            <div className="flex items-center space-x-6">
+              <nav className="hidden md:flex items-center space-x-6 text-sm font-bold">
+                <Link href="/about/" className="text-gray-400 hover:text-teal transition-colors">
+                  PROMO AIについて
+                </Link>
+                <Link href="/service/" className="text-gray-400 hover:text-teal transition-colors">
+                  サービス
+                </Link>
+                <Link href="/contents/" className="text-gray-400 hover:text-teal transition-colors">
+                  コンテンツ
+                </Link>
+              </nav>
+              <Button
+                variant="outline"
+                className="bg-teal text-white border-transparent relative overflow-hidden transition-all duration-300 hover:bg-white hover:text-teal hover:border-teal group"
+                onClick={scrollToNewsletter}
+              >
+                <span className="relative z-10">お問い合わせ</span>
+                <span className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+              </Button>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
-        <section className="mb-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Promotionを
-                <br />
-                <span className="text-gradient">加速させる</span>
+      <main>
+        {/* FVエリア - 動画セクション */}
+        <section className="relative w-full video-container">
+          <div className="video-wrapper">
+            <iframe
+              src="https://www.youtube.com/embed/3IJp60wqNYA?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&controls=0&loop=1&playlist=3IJp60wqNYA&iv_load_policy=3&fs=0&disablekb=1&playsinline=1&cc_load_policy=0&color=white&autohide=1&hl=ja&enablejsapi=0"
+              className="youtube-video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="PROMO AI プロモーション動画"
+            ></iframe>
+            {/* UIを非表示にするための透明なオーバーレイ */}
+            <div className="video-overlay pointer-events-auto"></div>
+          </div>
+        </section>
+
+        {/* テキストコンテンツセクション - 動画の下に配置 */}
+        <section className="py-16 bg-[#f1f4f8]">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto text-center">
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight text-[#1a202c]">
+                <span className="md:inline block">Promotionを</span>
+                <span className="md:inline block">加速させる</span>
               </h1>
-              <p className="text-gray-600 text-xl md:text-2xl lg:text-3xl font-semibold my-6">
+              <p className="text-[#1a202c] text-xl md:text-2xl lg:text-3xl font-semibold my-6">
                 <span className="block mb-2">「もっとラクして、もっと伝わる」</span>
                 <span className="block">AIで実現する、手間いらずのプロモーション改革</span>
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-brand-gradient hover:opacity-90" onClick={scrollToRecentArticles}>
-                  最新コンテンツ
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border border-gray-800 bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900 font-medium text-base rounded-md px-6"
-                  onClick={scrollToNewsletter}
+              <div className="mt-8 flex justify-center">
+                <Link
+                  href="/about/"
+                  className="inline-flex items-center justify-center bg-teal text-white border border-transparent relative overflow-hidden transition-all duration-300 hover:bg-white hover:text-teal hover:border-teal group py-4 px-8 rounded-md font-medium text-lg"
                 >
-                  お問い合わせ
-                </Button>
+                  <span className="relative z-10">PROMO AIについて</span>
+                  <span className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+                </Link>
               </div>
             </div>
-            <div className="relative h-[400px] rounded-xl overflow-hidden border border-gray-800">
-              {/* 静的画像をYouTube動画に置き換え */}
-              <div className="w-full h-full relative">
-                <iframe
-                  src="https://www.youtube.com/embed/065BVrYZNKo?autoplay=0"
-                  title="「不動産の才能をのばす。」篇 30秒 トーセイ企業CM【改訂版】"
-                  className="absolute inset-0 w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black to-transparent opacity-30"></div>
+          </div>
+        </section>
+
+        <div className="container mx-auto px-4 py-12">
+          <section className="mb-20">
+            <div className="mb-8">
+              <h2 className="text-4xl font-bold">OUR SERVICE</h2>
+              <p className="text-2xl text-teal font-bold">サービス</p>
             </div>
-          </div>
-        </section>
 
-        <section className="mb-20">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl font-bold">サービス</h2>
-              <p className="text-sm text-gray-400">Service</p>
+            <div className="grid md:grid-cols-3 gap-6">
+              <FeaturedCard
+                title={
+                  <>
+                    <span className="text-lg">Promo AI</span>
+                    <br />
+                    <span className="text-2xl text-teal">ショート動画 series</span>
+                  </>
+                }
+                description="AIアバター技術を用いた動画コンテンツ生成で、演者の撮影にかかる負担を大幅に削減。効果的なSNS運用やプロモーションをサポートします。"
+                image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Promoai_short2-XIGojvHSMSr8bLOnAIV1MEhCDc3Ecw.png"
+                slug="shortmovie"
+              />
+              <FeaturedCard
+                title={
+                  <>
+                    <span className="text-lg">Promo AI</span>
+                    <br />
+                    <span className="text-2xl text-teal">PRESS series</span>
+                  </>
+                }
+                description="AI技術を取り入れ、従来手間と時間がかかっていたアンケートリリースを「誰でも」「簡単に」「継続できる」新しい広報手法として提供します。メディア拡散力アップ、SEO効果、ブランド価値向上を実現。"
+                image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Promoai_press2-klBOvc22qsCjuJzBrOenvJoqFbFfLI.png"
+                slug="press"
+              />
+              <FeaturedCard
+                title={
+                  <>
+                    <span className="text-lg">Promo AI</span>
+                    <br />
+                    <span className="text-2xl text-teal">LP series</span>
+                  </>
+                }
+                description="AI技術を採用した高速・低コストなLP制作サービス。従来のLP制作にかかる時間・コスト・柔軟性の課題を解決し、短期間・低コストで効果的なLPを実現します。"
+                image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Promoai_lp2-0aPIGMHqgeLvaCJTq19h1zC6M2ZCZR.png"
+                slug="lp"
+              />
             </div>
-            <Link
-              href="/service/"
-              className="text-teal hover:text-azure text-sm flex items-center gap-2 transition-colors"
-            >
-              View all <Eye className="h-4 w-4" />
-            </Link>
-          </div>
+          </section>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <FeaturedCard
-              title={
-                <>
-                  <span className="text-sm">Promo AI</span>
-                  <br />
-                  <span className="text-xl text-teal">ショート動画 series</span>
-                </>
-              }
-              description="AIアバター技術を用いた動画コンテンツ生成で、撮影や編集にかかる負担を大幅に削減。効果的なSNS運用やプロモーションをサポートします。"
-              image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%200007-03-25%20at%2018.41.22-F1kkIQCD9EigvjeL7s3fQzLLgePiK5.png"
-              slug="shortmovie-series"
-            />
-            <FeaturedCard
-              title={
-                <>
-                  <span className="text-sm">Promo AI</span>
-                  <br />
-                  <span className="text-xl text-teal">PRESS series</span>
-                </>
-              }
-              description="AI技術を取り入れ、従来手間と時間がかかっていたアンケートリリースを「誰でも」「簡単に」「継続できる」新しい広報手法として提供します。メディア拡散力アップ、SEO効果、ブランド価値向上を実現。"
-              image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%200007-03-25%20at%2018.44.43-nk2l9IlhTDYeiZbHx8Q8AiKSLaqpv8.png"
-              slug="press"
-            />
-            <FeaturedCard
-              title={
-                <>
-                  <span className="text-sm">Promo AI</span>
-                  <br />
-                  <span className="text-xl text-teal">LP series</span>
-                </>
-              }
-              description="AI技術を採用した高速・高品質なLP制作サービス。従来のLP制作にかかる時間・コスト・柔軟性の課題を解決し、短期間・低コストで効果的なLPを実現します。"
-              image="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%200007-03-25%20at%2019.18.43-pxCljuoHZcAO3WePtq1z65iGLqNetN.png"
-              slug="lp"
-            />
-          </div>
-        </section>
-
-        <section className="mb-20" ref={recentArticlesRef}>
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold">最新コンテンツ</h2>
-            <p className="text-sm text-gray-400">Latest Contents</p>
-          </div>
-          <VideoSlider />
-        </section>
-
-        <section
-          ref={newsletterRef}
-          id="newsletter"
-          className="bg-white rounded-xl p-10 mb-20 border border-teal/30 shadow-lg text-center"
-        >
-          <div className="space-y-6 max-w-xl mx-auto">
-            <div className="inline-block p-3 bg-brand-gradient rounded-lg mb-2">
-              <Mail className="h-6 w-6 text-white" />
+          <section className="mb-20" ref={recentArticlesRef}>
+            <div className="mb-8">
+              <h2 className="text-4xl font-bold">CONTENTS</h2>
+              <p className="text-2xl text-teal font-bold">コンテンツ</p>
             </div>
-            <h2 className="text-3xl font-bold">お問い合わせ</h2>
-            <p className="text-gray-600">
-              サービスに関するご質問やお見積りのご依頼など、お気軽にお問い合わせください。
-            </p>
-            <Link
-              href="#"
-              className="inline-flex items-center justify-center gap-3 bg-brand-gradient hover:opacity-90 text-white font-medium py-4 px-8 rounded-md transition-colors text-lg"
-            >
-              <Mail className="h-6 w-6" />
-              PROMO AIに関するお問い合わせはコチラ
-            </Link>
-          </div>
-        </section>
+            <VideoSlider />
+          </section>
+
+          <section
+            ref={newsletterRef}
+            id="newsletter"
+            className="bg-white rounded-xl p-10 mb-20 border border-teal/30 shadow-lg text-center"
+          >
+            <div className="space-y-6 max-w-xl mx-auto">
+              <h2 className="text-3xl font-bold">お問い合わせ</h2>
+              <p className="text-gray-600">
+                サービスに関するご質問やお見積りのご依頼など、
+                <br />
+                お気軽にお問い合わせください。
+              </p>
+              <Link
+                href="https://forms.gle/7U9Eyu2mJu38p6i57"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-teal text-white border border-transparent relative overflow-hidden transition-all duration-300 hover:bg-white hover:text-teal hover:border-teal group py-4 px-8 rounded-md font-medium text-lg"
+              >
+                <span className="relative z-10">お問い合わせはコチラ</span>
+                <span className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+              </Link>
+            </div>
+          </section>
+        </div>
       </main>
 
       <footer className="border-t border-gray-200 py-12 bg-white">
@@ -229,11 +227,7 @@ export default function Home() {
               PROMO AI
             </Link>
             <p className="text-gray-400 text-sm mt-4 mb-6">最先端のAI技術で、効率的なプロモーションを実現します。</p>
-            <div className="flex justify-center space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Instagram className="h-5 w-5" />
-              </Link>
-            </div>
+
             <div className="border-t border-gray-800 mt-8 pt-6 text-sm text-gray-400 flex justify-between items-center">
               <p>© {new Date().getFullYear()} PROMO AI. All rights reserved.</p>
               <Link
@@ -252,17 +246,14 @@ export default function Home() {
   )
 }
 
-// VideoSlider 関数を以下のように更新します
-
+// VideoSlider 関数
 function VideoSlider() {
-  // VideoSlider 関数内のvideoDataを以下のように更新します。
-  // 新しい動画を先頭に追加します。
-
   const videoData = [
     {
       id: 0,
       title: "LOGICA Melody",
-      description: "LOGICAの最新営業コンテンツをご紹介します。AIを活用した効率的な営業戦略について解説しています。",
+      description:
+        "ヘッドフォンの広告サンプルとなります。AIとアニメーション生成を組みわせたエモーショナルな映画の予告のようなコンテンツとなります。",
       category: "Sales Content",
       date: "March 20, 2025",
       videoSrc: "https://www.youtube.com/embed/mGZlXwmnQS8",
@@ -275,7 +266,7 @@ function VideoSlider() {
       id: 1,
       title: "LOGICA Drink",
       description:
-        "LOGICAの革新的なAI駆動型プロモーションコンテンツをご紹介します。飲料マーケティングにおける独自のアプローチをご覧ください。",
+        "栄養ドリンクの広告サンプルとなります。AIとアニメーション生成と実写生成を組みわせて親しみと効果が実感できそうなイメージを訴求しています。",
       category: "Promo Video",
       date: "March 19, 2025",
       videoSrc: "https://www.youtube.com/embed/4BbbUKLeagA",
@@ -288,7 +279,7 @@ function VideoSlider() {
       id: 2,
       title: "LOGICA Rouge",
       description:
-        "LOGICAの最新営業コンテンツシリーズ第5弾。AIを活用したプロモーション戦略と効果的な顧客エンゲージメントについて解説しています。",
+        "口紅の広告サンプルとなります。AIとアニメーション生成を組み合わせたターゲット層に興味と関心を訴求したコンテンツとなっています。",
       category: "Sales Content",
       date: "March 28, 2025",
       videoSrc: "https://www.youtube.com/embed/DEVWV_Mdtf4",
@@ -300,8 +291,7 @@ function VideoSlider() {
     {
       id: 3,
       title: "LOGICA Lip",
-      description:
-        "LOGICAの最新営業コンテンツシリーズ第4弾。AIを活用した効率的な営業アプローチと顧客対応の最適化について解説しています。",
+      description: "口紅の広告サンプルとなります。AIによる動画生成のみでの素材でプロモーションを作成。",
       category: "Sales Content",
       date: "March 25, 2025",
       videoSrc: "https://www.youtube.com/embed/Caq2Zh09Jt4",
@@ -311,37 +301,16 @@ function VideoSlider() {
       externalLink: "https://www.youtube.com/watch?v=Caq2Zh09Jt4",
     },
     {
-      id: 4,
-      title: "AI Video Editing",
-      description:
-        "Learn how AI can automate your video editing workflow and help you create professional-looking content in minutes.",
-      category: "Production",
-      date: "September 12, 2023",
-      videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      posterSrc: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=600&h=400&auto=format&fit=crop",
-      externalLink: "",
-    },
-    {
-      id: 5,
-      title: "Content Generation",
-      description:
-        "See how AI can generate creative content ideas and help you produce high-quality videos for your marketing campaigns.",
-      category: "Creation",
-      date: "October 8, 2023",
-      videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-      posterSrc: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&h=400&auto=format&fit=crop",
-      externalLink: "",
-    },
-    {
       id: 6,
-      title: "AI Analytics Dashboard",
+      title: "対談コンテンツ",
       description:
-        "Explore how AI analytics can help you understand your audience and optimize your promotional content strategy.",
+        "AIアバターによる対談コンテンツを制作。演者の撮影への負担を軽減して、情報配信を効率的に行うことができます。",
       category: "Analytics",
       date: "November 15, 2023",
-      videoSrc: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-      posterSrc: "https://images.unsplash.com/photo-1581472723648-909f4851d4ae?q=80&w=600&h=400&auto=format&fit=crop",
-      externalLink: "",
+      videoSrc: "https://www.youtube.com/embed/OpPi7-Qx67E",
+      posterSrc: "https://img.youtube.com/vi/OpPi7-Qx67E/maxresdefault.jpg",
+      isYouTube: true,
+      externalLink: "https://www.youtube.com/watch?v=OpPi7-Qx67E",
     },
   ]
 
@@ -392,10 +361,7 @@ function VideoSlider() {
   }, [swiperInstance])
 
   // Swiper.js用の状態管理
-  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
-
-  // スライド変更時のコールバック  = useState(false)
 
   // スライド変更時のコールバック
   const handleSlideChange = (swiper: SwiperType) => {
@@ -418,9 +384,7 @@ function VideoSlider() {
         speed={8000} // 非常にゆっくりとしたスライド速度
         autoplay={{
           delay: 1, // 遅延をほぼゼロに設定
-          disableOnInteraction: false, // ユーザー操作後も自動再生を継続
-          pauseOnMouseEnter: false, // マウスホバー時の一時停止はカスタム処理で行う
-          stopOnLastSlide: false, // 最後のスライドで停止しない
+          disableOnInteraction: false, // ユ
         }}
         navigation={{
           nextEl: ".swiper-button-next",
@@ -483,7 +447,7 @@ function VideoSlider() {
   )
 }
 
-// SmartphoneVideoCard 関数を以下のように更新します
+// SmartphoneVideoCard 関数
 function SmartphoneVideoCard({
   title,
   description,
@@ -537,16 +501,29 @@ function SmartphoneVideoCard({
         // 中央に来たら自動再生（ミュート状態）
         // YouTubeの動画IDを抽出
         const videoId = videoSrc.split("/").pop()
-        setYoutubeUrl(`${videoSrc}?autoplay=1&mute=1&loop=1&playlist=${videoId}`)
+
+        // LOGICA Lipの動画の場合は0.01秒から開始するパラメータを追加
+        const isLogicaLip = title === "LOGICA Lip"
+        const startParam = isLogicaLip ? "&start=0.01" : ""
+
+        setYoutubeUrl(
+          `${videoSrc}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3${startParam}`,
+        )
       } else if (isHovered) {
         // ホバー時も自動再生
-        setYoutubeUrl(`${videoSrc}?autoplay=1&mute=1`)
+        // LOGICA Lipの動画の場合は0.01秒から開始するパラメータを追加
+        const isLogicaLip = title === "LOGICA Lip"
+        const startParam = isLogicaLip ? "&start=0.01" : ""
+
+        setYoutubeUrl(
+          `${videoSrc}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3${startParam}`,
+        )
       } else {
         // それ以外の場合は自動再生しない
         setYoutubeUrl(videoSrc)
       }
     }
-  }, [isHovered, isYouTube, videoSrc, isInView])
+  }, [isHovered, isYouTube, videoSrc, isInView, title])
 
   // 通常の動画の再生制御
   useEffect(() => {
@@ -654,6 +631,8 @@ function SmartphoneVideoCard({
                       referrerPolicy="strict-origin-when-cross-origin"
                       allowFullScreen
                     ></iframe>
+                    {/* UIを非表示にするための透明なオーバーレイ */}
+                    <div className="video-overlay"></div>
                   </div>
                 )}
               </div>
@@ -750,7 +729,18 @@ function SmartphoneVideoCard({
   )
 }
 
+// FeaturedCard コンポーネントを以下のように修正します
+
 function FeaturedCard({ title, description, image, slug = "" }) {
+  const router = useRouter()
+
+  const handleReadMore = (e) => {
+    e.preventDefault()
+    router.push(`/${slug}/`)
+    // ページ遷移後に上部にスクロール
+    window.scrollTo(0, 0)
+  }
+
   return (
     <Card className="bg-gray-900 border-gray-800 overflow-hidden hover:border-teal/50 transition-colors transform transition-transform duration-300 hover:-translate-y-2">
       <div className="relative h-48">
@@ -768,9 +758,13 @@ function FeaturedCard({ title, description, image, slug = "" }) {
         <CardDescription className="text-gray-400">{description}</CardDescription>
       </CardContent>
       <CardFooter className="flex justify-end text-sm text-gray-500">
-        <Link href={`/${slug}/`} className="text-teal hover:text-azure transition-colors">
+        <a
+          href={`/${slug}/`}
+          onClick={handleReadMore}
+          className="text-teal hover:text-azure transition-colors cursor-pointer"
+        >
           Read more →
-        </Link>
+        </a>
       </CardFooter>
     </Card>
   )
