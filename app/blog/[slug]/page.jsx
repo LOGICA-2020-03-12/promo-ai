@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic"
 
 
-
 // This is a static mapping of blog posts for GitHub Pages
 const blogPosts = {
   "evolution-of-gans": {
