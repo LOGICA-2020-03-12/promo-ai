@@ -1,0 +1,372 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 267 100% 61%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 267 100% 61%;
+}
+
+body {
+  background-color: #f0f4f8; /* Light blue/gray background */
+  color: #1a202c; /* Darker text for better contrast on light background */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.slider-container {
+  width: 100%;
+  padding: 20px 0;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.slider-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.slider-track {
+  display: flex;
+  width: fit-content;
+}
+
+.slider-track:hover {
+  animation-play_state: paused;
+}
+
+/* Improved slider styling */
+@media (min-width: 640px) {
+  .animate-scroll {
+    animation: scroll 60s linear infinite;
+  }
+}
+
+@media (min-width: 1024px) {
+  .animate-scroll {
+    animation: scroll 80s linear infinite;
+  }
+}
+
+/* Swiper.js custom styling */
+.swiper {
+  width: 100%;
+  height: 100%;
+  padding: 20px 0;
+}
+
+.swiper-slide {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hide default navigation buttons */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  display: none;
+}
+
+/* Custom navigation buttons styling */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 40px !important;
+  height: 40px !important;
+  margin-top: -20px !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* ビデオスライダー用のカスタムスタイル */
+.video-slider-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.video-swiper {
+  overflow: visible;
+}
+
+.video-swiper-slide {
+  width: 200px !important; /* ショート動画のような縦長表示のための幅 */
+  transition: transform 0.3s ease;
+}
+
+/* レスポンシブ調整 */
+@media (min-width: 640px) {
+  .video-swiper-slide {
+    width: 220px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .video-swiper-slide {
+    width: 240px !important;
+  }
+}
+
+/* Swiperの自動スクロールが止まらないようにするための追加スタイル */
+.swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+
+/* 自動スクロールの継続性を向上させるためのスタイル */
+.video-swiper .swiper-wrapper {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* グラデーションテキスト用のクラス */
+.text-gradient {
+  background: linear-gradient(90deg, #3dbca6 0%, #1baad7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* グラデーション背景用のクラス */
+.gradient-bg {
+  background: linear-gradient(90deg, #3dbca6 0%, #1baad7 100%);
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.bg-black {
+  background-color: #ffffff;
+}
+
+.border-gray-800 {
+  border-color: #e2e8f0;
+}
+
+/* Card and content styling for better contrast */
+.bg-gray-900 {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Adjust footer styling */
+footer {
+  background-color: #ffffff;
+  border-top-color: #e2e8f0;
+}
+
+/* Adjust text colors for better contrast on light background */
+.text-gray-400 {
+  color: #4a5568;
+}
+
+/* Newsletter section styling */
+section#newsletter {
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* YouTubeの埋め込み動画のスタイル調整 */
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f0f4f8; /* サイトの背景色と同じ色 */
+  margin-top: 56px; /* ヘッダーの高さ分だけ下げる */
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.youtube-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* YouTubeのUIを非表示にするためのオーバーレイ */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  /* ポインターイベントを透過させない - クリックを完全にブロック */
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* 動画読み込み中のプレースホルダー */
+.video-placeholder {
+  z-index: 5;
+  transition: opacity 0.5s ease;
+  background-color: #f0f4f8;
+}
+
+/* ローディングスピナー */
+.loading-spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(61, 188, 166, 0.3);
+  border-radius: 50%;
+  border-top-color: #3dbca6;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* レスポンシブ調整 - スマホサイズ */
+@media (max-width: 768px) {
+  .video-container {
+    height: 60vh; /* スマホでは画面の60%の高さに */
+  }
+
+  .youtube-video {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-position: center;
+  }
+
+  /* iframeのアスペクト比を維持しながら、画面全体をカバー */
+  .video-wrapper iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  /* モバイルでの品質最適化 - 低速接続用 */
+  @media (prefers-reduced-data: reduce) {
+    .video-wrapper iframe {
+      /* 低データモードでは動画の代わりに静的画像を表示 */
+      background-image: url("https://i.ytimg.com/vi/3IJp60wqNYA/maxresdefault.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}
+
+/* タブレットサイズでの調整 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .video-container {
+    height: 70vh; /* タブレットでは画面の70%の高さに */
+  }
+
+  .youtube-video {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-position: center;
+  }
+
+  /* iframeのアスペクト比を維持しながら、画面全体をカバー */
+  .video-wrapper iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+/* PCサイズでの調整 */
+@media (min-width: 1025px) {
+  .video-container {
+    height: 80vh; /* PCでは画面の80%の高さに */
+  }
+
+  .youtube-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* アスペクト比を維持しながら領域を埋める */
+    object-position: center;
+  }
+
+  /* 大画面での高品質表示 */
+  .video-wrapper iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 56.25vw; /* 16:9のアスペクト比を維持 */
+  }
+}
+
+/* 横向き（ランドスケープ）モードでの調整 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .video-container {
+    height: 100vh; /* 横向きの場合は画面いっぱいに */
+  }
+
+  .video-wrapper iframe {
+    width: 100vw;
+    height: 56.25vw; /* 16:9のアスペクト比 */
+  }
+}
